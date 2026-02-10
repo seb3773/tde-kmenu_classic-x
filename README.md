@@ -54,7 +54,7 @@ To compile a production-ready, stripped binary:
     ```
 
 3.  **Install (Auto-Stripped)**:
-    Simply run `make install`. The build system will automatically apply `sstrip` (if available) or `strip` to the binaries, ensuring an optimized 3KB footprint by default.
+    Simply run `make install`. The build system will automatically apply `sstrip` (if available) or `strip` to the binaries, ensuring an optimized footprint by default.
     ```bash
     sudo make install
     ```
@@ -77,8 +77,8 @@ The script will automatically build a Release version (if not done), install to 
 
 ## Screenshots
 
-![Search Interface](screenshots/screenshot_kicker_menu_search.jpg) ![Rich Results](screenshots/screenshot_kicker_menu_search2.jpg)
-![Empty State](screenshots/screenshot_kicker_menu_search3.jpg)
+![Search Interface](screenshots/screenshot_kicker_menu_search.jpg) ![Results](screenshots/screenshot_kicker_menu_search2.jpg)
+![one result](screenshots/screenshot_kicker_menu_search3.jpg) ![no results](screenshots/screenshot_kicker_menu_search4.jpg)
 
 
 
