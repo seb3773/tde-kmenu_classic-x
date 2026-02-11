@@ -28,13 +28,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <tqintdict.h>
 #include <tqpixmap.h>
 #include <tqtimer.h>
-#include <tqguardedptr.h>
+#include <tdeversion.h>
 
 #ifndef TQT_SIGNAL
 #define TQT_SIGNAL TQ_SIGNAL
 #endif
 #ifndef TQT_SLOT
 #define TQT_SLOT TQ_SLOT
+#endif
+
+// Compatibility for TDE 14.1.5+ where tqdrawPrimitive was renamed to drawPrimitive
+#if TDE_VERSION >= TDE_VERSION_CHECK(14, 1, 2)
+#define tqdrawPrimitive drawPrimitive
 #endif
 
 #include "service_mnu.h"

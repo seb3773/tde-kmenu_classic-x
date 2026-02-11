@@ -30,6 +30,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <tqstyle.h>
 #include <tqpainter.h>
 #include <tqmenudata.h>
+#include <tdeversion.h>
 
 #ifndef TQT_SIGNAL
 #define TQT_SIGNAL TQ_SIGNAL
@@ -39,7 +40,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 // Compatibility for TDE 14.1.5+ where tqdrawPrimitive was renamed to drawPrimitive
-#if !defined(tqdrawPrimitive) && TDE_VERSION >= TDE_VERSION_CHECK(14, 1, 2)
+#if TDE_VERSION >= TDE_VERSION_CHECK(14, 1, 2)
 #define tqdrawPrimitive drawPrimitive
 #endif
 
