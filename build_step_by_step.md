@@ -51,6 +51,7 @@ Make sure you have:
 - TDE development headers (libtqt-dev, tdelibs-dev, etc.)
 - Gold linker (optional, for smaller binaries)
 - sstrip (optional, for maximum binary compression)
+- tde-cmake (required for TDE 14.1.5+)
 
 Verify tools:
 
@@ -286,6 +287,18 @@ mkdir build && cd build
 And run cmake again.
 
 
+
+**** CMake Error - "include could not find requested file: TDEVersion" (TDE 14.1.5+)
+
+--> TDE 14.1.5 introduced new CMake modules that are not part of the standard tdebase source.
+You must install the `tde-cmake` package:
+
+sudo apt install tde-cmake
+
+This will install `TDEVersion.cmake` and other essential modules to your system.
+
+
+
 **** "make: *** No targets specified and no makefile found"
 
 --> You're in the wrong directory or cmake hasn't been run yet:
@@ -339,6 +352,16 @@ sudo cp sstrip /usr/local/bin/
 
 If sstrip is not available, the CMakeLists.txt will automatically fall back to `strip --strip-all`,
 which produces a slightly larger binary (~8-12KB).
+
+**** Compilation errors: TQT_SIGNAL, TQT_SLOT, tqdrawPrimitive (TDE 14.1.5+)
+
+--> TDE 14.1.5 cleaned up some older TQt API prefixes. Specifically:
+- `TQT_SIGNAL` and `TQT_SLOT` were renamed to `TQ_SIGNAL` and `TQ_SLOT`
+- `tqdrawPrimitive` (method) was renamed to `drawPrimitive`
+
+The provided Modern Search source files (`k_mnu.h`, `k_new_mnu.h`, `popupmenutitle.h`) include
+compatibility guards that automatically map these back for smooth compilation on both 14.1.1 and 14.1.5.
+No manual source modification is required if you are using the latest version of these files.
 
 
 
