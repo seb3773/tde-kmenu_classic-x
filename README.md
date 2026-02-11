@@ -17,7 +17,7 @@ launched or the menu is dismissed.
 ## Technical Implementation
 This enhancement utilizes advanced TQt/TDE widget management techniques:
 
-### 1. Robust Widget Persistence
+### 1. Widget Persistence
 To maintain the search bar at the bottom during dynamic menu re-initialization (which typically wipes all 
 children), the implementation uses a **Detachment/Re-attachment pattern**:
 - **Detachment**: The search bar container is reparented to `NULL` during the base class `initialize()` wipe.
