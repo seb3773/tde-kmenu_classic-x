@@ -31,7 +31,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <tqpainter.h>
 #include <tqmenudata.h>
 
-#include <tdeapplication.h>
+#ifndef TQT_SIGNAL
+#define TQT_SIGNAL TQ_SIGNAL
+#endif
+#ifndef TQT_SLOT
+#define TQT_SLOT TQ_SLOT
+#endif
+
+// Compatibility for TDE 14.1.5+ where tqdrawPrimitive was renamed to drawPrimitive
+#if !defined(tqdrawPrimitive) && TDE_VERSION >= TDE_VERSION_CHECK(14, 1, 2)
+#define tqdrawPrimitive drawPrimitive
+#endif
 
 class PopupMenuTitle : public TQCustomMenuItem
 {
@@ -51,6 +61,13 @@ public:
     {
         p->save();
         TQRect r(x, y, w, h);
+#ifndef TQT_SIGNAL
+#define TQT_SIGNAL TQ_SIGNAL
+#endif
+#ifndef TQT_SLOT
+#define TQT_SLOT TQ_SLOT
+#endif
+
         kapp->style().tqdrawPrimitive(TQStyle::PE_HeaderSectionMenu,
                                     p, r, cg);
 

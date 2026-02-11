@@ -30,6 +30,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <tqtimer.h>
 #include <tqguardedptr.h>
 
+#ifndef TQT_SIGNAL
+#define TQT_SIGNAL TQ_SIGNAL
+#endif
+#ifndef TQT_SLOT
+#define TQT_SLOT TQ_SLOT
+#endif
+
 #include "service_mnu.h"
 
 namespace KPIM {
