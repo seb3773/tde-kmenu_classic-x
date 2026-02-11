@@ -68,8 +68,6 @@ tde_add_tdeinit_executable( kicker
 
 # Automated sstrip on install (Release mode)
 install(CODE "
-  if( \"\${CMAKE_INSTALL_CONFIG_NAME}\" MATCHES \"Release\" OR NOT \"\${CMAKE_INSTALL_CONFIG_NAME}\" )
     message(STATUS \"Performing post-install stripping...\")
-    execute_process(COMMAND sh -c \"if command -v sstrip >/dev/null; then sstrip \\\"\$ENV{DESTDIR}${BIN_INSTALL_DIR}/kicker\\\"; else strip --strip-all \\\"\$ENV{DESTDIR}${BIN_INSTALL_DIR}/kicker\\\"; fi\")
-  endif()
+    execute_process(COMMAND sh -c \"if command -v sstrip >/dev/null; then echo 'FOUND sstrip, optimizing...'; sstrip \\\"\$ENV{DESTDIR}${BIN_INSTALL_DIR}/kicker\\\"; else echo 'sstrip NOT FOUND, using standard strip...'; strip --strip-all \\\"\$ENV{DESTDIR}${BIN_INSTALL_DIR}/kicker\\\"; fi\")
 ")

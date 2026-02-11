@@ -458,14 +458,23 @@ void PanelKMenu::initialize()
             searchEdit->installEventFilter(this);
         }
 
+        // Simplification: Search bar is now hidden by default (Type-to-Search)
+        // if (searchEdit) {
+        //     TQHBox* hbox_to_reinsert = static_cast<TQHBox*>(searchEdit->parent());
+        //     if (hbox_to_reinsert) {
+        //         hbox_to_reinsert->reparent(this, TQPoint(0,0));
+        //         hbox_to_reinsert->show();
+        //         hbox_to_reinsert->raise();
+        //         insertItem(hbox_to_reinsert, searchLineID);
+        //     }
+        // }
+        // Ensure detached but valid parent for safety
         if (searchEdit) {
-            TQHBox* hbox_to_reinsert = static_cast<TQHBox*>(searchEdit->parent());
-            if (hbox_to_reinsert) {
-                hbox_to_reinsert->reparent(this, TQPoint(0,0));
-                hbox_to_reinsert->show();
-                hbox_to_reinsert->raise();
-                insertItem(hbox_to_reinsert, searchLineID);
-            }
+             TQHBox* hbox = static_cast<TQHBox*>(searchEdit->parent());
+             if (hbox) {
+                 hbox->reparent(this, TQPoint(0,0)); // Keep it alive
+                 hbox->hide(); // Hide it
+             }
         }
     }
 
@@ -924,6 +933,10 @@ void PanelKMenu::slotClearSearch()
         setMaximumHeight(30000); // Safe max height
         setMinimumWidth(0);
         setMaximumWidth(30000);  // Safe max width
+        
+        if (isVisible()) {
+             TQTimer::singleShot(0, this, TQT_SLOT(slotReinitialize()));
+        }
     }
 }
 
@@ -962,36 +975,69 @@ void PanelKMenu::slotFocusSearch()
 
 void PanelKMenu::keyPressEvent(TQKeyEvent* e)
 {
-    // We move the focus to the search field if the
-    // user presses '/'. This is the same shortcut as
-    // konqueror is using, and afaik it's hardcoded both
-    // here and there. This sucks badly for many non-us
-    // keyboard layouts, but for the sake of consistency
-    // we follow konqueror.
-    if (!searchEdit) return KPanelMenu::keyPressEvent(e);
-
-    if (e->key() == TQt::Key_Escape) {
-        if (searchEdit->text().isEmpty()) {
-            hideMenu();
-        } else {
-            searchEdit->clear();
-        }
-    }
-    else if (e->key() == TQt::Key_Delete && !searchEdit->hasFocus() &&
-        searchEdit->text().isEmpty() == false)
+    // Navigation keys always passthrough to standard menu handling
+    if (e->key() == TQt::Key_Up || e->key() == TQt::Key_Down ||
+        e->key() == TQt::Key_Left || e->key() == TQt::Key_Right ||
+        e->key() == TQt::Key_Return || e->key() == TQt::Key_Enter)
     {
-        searchEdit->clear();
+         KPanelMenu::keyPressEvent(e);
+         return;
     }
-    else {
+    
+    // Type-to-Search: Escape exits search mode if active
+    if (e->key() == TQt::Key_Escape)
+    {
+         if (m_inFlatSearchMode) {
+             slotClearSearch();
+             return;
+         }
+         KPanelMenu::keyPressEvent(e);
+         return;
+    }
+
+    if (!searchEdit) {
         KPanelMenu::keyPressEvent(e);
+        return;
     }
+
+    // '/' Shortcut (Legacy support) or Type-to-Search (Alphanumeric)
+    bool isSlash = (e->text() == "/");
+    bool isTypeToSearch = (!e->text().isEmpty() && e->text().length() == 1 && 
+                          e->text()[0].isPrint() && 
+                          !(e->state() & (TQt::ControlButton | TQt::AltButton)));
+
+    if (isSlash || isTypeToSearch)
+    {
+         if (!m_inFlatSearchMode)
+         {
+             m_inFlatSearchMode = true;
+             slotClear(); // Clear normal menu items
+             
+             // Insert Search Bar at bottom
+             TQHBox* hbox = static_cast<TQHBox*>(searchEdit->parent());
+             if (hbox) {
+                 hbox->reparent(this, TQPoint(0,0));
+                 hbox->show();
+                 insertItem(hbox, searchLineID);
+             }
+         }
+         
+         searchEdit->setFocus();
+         if (isTypeToSearch) {
+             searchEdit->setText(e->text()); // Inject the typed character
+         }
+         return;
+    }
+
+    KPanelMenu::keyPressEvent(e);
 }
 
 void PanelKMenu::slotOnShow()
 {
     // Auto-focus search bar when menu opens.
     // Use a singleShot timer to ensure the widget is fully visible and ready.
-    if (searchEdit) {
+    // Auto-focus search bar only if already in search mode
+    if (searchEdit && m_inFlatSearchMode) {
         TQTimer::singleShot(0, searchEdit, TQT_SLOT(setFocus()));
     }
 }

@@ -43,8 +43,6 @@ tde_add_library( ${target} SHARED AUTOMOC
 
 # Automated sstrip on install (Release mode)
 install(CODE "
-  if( \"\${CMAKE_INSTALL_CONFIG_NAME}\" MATCHES \"Release\" OR NOT \"\${CMAKE_INSTALL_CONFIG_NAME}\" )
     message(STATUS \"Performing post-install stripping for ${target}...\")
-    execute_process(COMMAND sh -c \"if command -v sstrip >/dev/null; then sstrip \\\"\$ENV{DESTDIR}${LIB_INSTALL_DIR}/lib${target}.so\\\"; else strip --strip-all \\\"\$ENV{DESTDIR}${LIB_INSTALL_DIR}/lib${target}.so\\\"; fi\")
-  endif()
+    execute_process(COMMAND sh -c \"if command -v sstrip >/dev/null; then echo 'FOUND sstrip, optimizing...'; sstrip \\\"\$ENV{DESTDIR}${LIB_INSTALL_DIR}/lib${target}.so\\\"; else echo 'sstrip NOT FOUND, using standard strip...'; strip --strip-all \\\"\$ENV{DESTDIR}${LIB_INSTALL_DIR}/lib${target}.so\\\"; fi\")
 ")
