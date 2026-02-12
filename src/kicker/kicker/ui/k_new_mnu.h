@@ -53,7 +53,7 @@
 #endif
 
 // Compatibility for TDE 14.1.5+ where tqdrawPrimitive was renamed to drawPrimitive
-#if TDE_VERSION >= TDE_VERSION_CHECK(14, 1, 2)
+#if KDE_IS_VERSION(14, 1, 2)
 #define tqdrawPrimitive drawPrimitive
 #endif
 

@@ -31,6 +31,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <tqpainter.h>
 #include <tqmenudata.h>
 #include <tdeversion.h>
+#include <tqapplication.h>
 
 #ifndef TQT_SIGNAL
 #define TQT_SIGNAL TQ_SIGNAL
@@ -40,7 +41,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 // Compatibility for TDE 14.1.5+ where tqdrawPrimitive was renamed to drawPrimitive
-#if TDE_VERSION >= TDE_VERSION_CHECK(14, 1, 2)
+#if KDE_IS_VERSION(14, 1, 2)
 #define tqdrawPrimitive drawPrimitive
 #endif
 
@@ -69,7 +70,7 @@ public:
 #define TQT_SLOT TQ_SLOT
 #endif
 
-        kapp->style().tqdrawPrimitive(TQStyle::PE_HeaderSectionMenu,
+        TQApplication::style().tqdrawPrimitive(TQStyle::PE_HeaderSectionMenu,
                                     p, r, cg);
 
         if (!m_desktopName.isEmpty())
@@ -126,7 +127,7 @@ public:
       if (m_suffix.isEmpty()) {
           TQSize size = TQFontMetrics(m_font).size(AlignHCenter, m_desktopName);
           size.setHeight(size.height() +
-                         (kapp->style().pixelMetric(TQStyle::PM_DefaultFrameWidth) * 2 + 1));
+                         (TQApplication::style().pixelMetric(TQStyle::PM_DefaultFrameWidth) * 2 + 1));
           return size;
       } else {
           // Combined size
@@ -136,7 +137,7 @@ public:
                   TQFontMetrics(normalFont).width(m_suffix);
           int h = TQFontMetrics(m_font).height(); // Height dictated by biggest font (usually same)
           
-          return TQSize(w, h + (kapp->style().pixelMetric(TQStyle::PM_DefaultFrameWidth) * 2 + 1));
+          return TQSize(w, h + (TQApplication::style().pixelMetric(TQStyle::PM_DefaultFrameWidth) * 2 + 1));
       }
     }
 
