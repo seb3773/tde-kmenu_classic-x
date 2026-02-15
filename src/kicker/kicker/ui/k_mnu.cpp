@@ -636,8 +636,8 @@ void PanelKMenu::slotPopulateLogout()
 
     // Shutdown / Restart
     if (m_canShutdown) {
-        logoutMenu->insertItem(SmallIconSet("kickermenu-logout"), i18n("Shutdown"), this, SLOT(slotShutdown()));
-        logoutMenu->insertItem(SmallIconSet("menu-restart"), i18n("Restart"), this, SLOT(slotReboot()));
+        logoutMenu->insertItem(SmallIconSet("kickermenu-logout"), i18n("Shutdown"), this, TQT_SLOT(slotShutdown()));
+        logoutMenu->insertItem(SmallIconSet("menu-restart"), i18n("Restart"), this, TQT_SLOT(slotReboot()));
     }
 
     // Suspend / Hibernate options (respect power-manager settings)
