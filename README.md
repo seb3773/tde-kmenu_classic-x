@@ -1,7 +1,7 @@
-# TDE Kicker Menu Modern Search (Classic Menu search redesign)
+# TDE Kicker Menu Classic-X (Classic Menu redesign)
 
-A redesign of the search experience for the TDE Classic Menu (KMenu).
-This integration brings Windows 10-style instant search filtering to the classic Trinity panel menu.
+A redesign of the TDE Classic Menu (KMenu).
+This integration brings Windows 10-style instant search filtering to the classic Trinity panel menu and others improvements.
 
 ## Features
 
