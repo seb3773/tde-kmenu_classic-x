@@ -242,11 +242,13 @@ ignored.)
 The created package includes:
 - **Binary**: `/opt/trinity/bin/kicker` (~3KB)
 - **Libraries**: `libkickermain.so`, `libtdeinit_kicker.so`
+- **Modern Interactive Sidebar**: Windows 10-inspired buttons for **Switch User**, **Documents**, **Pictures**, **Settings**, and **Log Out**.
+- **Interactive Menu Titles**: Toggle Recent/Frequent, Direct Shutdown, and User Config.
 - **Panel applets**: clock, systray, launcher, etc.
 - **Menu extensions**: recent docs, konsole, kate, etc.
-- **Icons**: search_empty.png (transparent padding icon)
-- **Package name**: `tde-kicker-q4win10`
-- **Version**: 14.1.1
+- **Icons**: search_empty.png (transparent padding icon), menu-*.png (sidebar icons)
+- **Package name**: `tde-kicker-classicx-q4win10`
+- **Version**: 14.1.1 (dynamically detected)
 - **Architecture**: Automatically detected
 
 

@@ -6,10 +6,15 @@ This integration brings Windows 10-style instant search filtering to the classic
 ## Features
 
 *   **Type-to-Search**: Start typing on any alphanumeric key to instantly enter search mode — no dedicated search bar activation required (same UX as the Windows 10 Start Menu). Navigation keys (Enter, ESC, arrows) are not intercepted.
-*   **Instant Filtering**: Flat view of matching results as you type, replacing the legacy path highlighting logic.
+*   **Modern Interactive Sidebar**: Windows 10-inspired quick access buttons for **Switch User**, **Documents**, **Pictures**, **Settings**, and **Log Out**
+*   **Interactive quick access buttons Menu Titles**:
+    *   **Toggle Recent/Frequent**: Click the "Recently Used Applications" title to instantly swap to "Most Used" (and vice-versa) without closing the menu.
+    *   **Direct Shutdown**: Click the "Shutdown" title in the logout menu to launch the "classic" shutdown dialog.
+    *   **User Config**: Click the user name in the sessions menu to open the user configuration module.
+*   **Instant Filtering**: Flat view of matching results as you type, replacing the legacy tree path highlighting logic.
 *   **Bottom-Anchored Search Bar**: Search entry appears at the bottom of the menu only when actively searching.
 *   **Dynamic Result Titles**: Live result count ("Search Results (50+)"), empty state feedback ("No Results Found").
-*   **Single Match Auto-Launch**: When only one result matches, pressing Enter launches it immediately.
+*   **Single Match Auto-Launch**: When only one result matches, pressing Enter launches it immediately :-)
 *   **Contextual ESC**: First press clears the search query and returns to normal menu. Second press closes the menu.
 *   **Auto-Reset**: Full menu tree is automatically restored after launching an application or dismissing the menu.
 
@@ -54,7 +59,8 @@ From the **tdebase root directory** (e.g. `/home/user/tdebase-trinity-14.1.1`):
       -DCMAKE_INSTALL_PREFIX=/opt/trinity \
       -DCMAKE_CXX_FLAGS="-g0 -O2 -Wl,--relax -Wl,-z,norelro -fstrict-aliasing -flto=auto -ffunction-sections -fdata-sections -fno-ident -fno-plt -fno-asynchronous-unwind-tables -fno-unwind-tables -fomit-frame-pointer -fno-stack-protector -fno-math-errno -ffast-math -fvisibility=hidden -fmerge-all-constants -fuse-ld=gold -Wl,--gc-sections,--build-id=none,--as-needed,--strip-all,-O1,--icf=all,--compress-debug-sections=zlib -s -Wno-deprecated-declarations" \
       -DBUILD_KICKER=ON \
-      -DBUILD_ALL=OFF
+      -DBUILD_ALL=OFF \
+      -DWITH_TDEHWLIB=ON
     ```
 
 2.  **Build** (compiles only kicker):
@@ -77,7 +83,8 @@ cmake .. \
   -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_INSTALL_PREFIX=/opt/trinity \
   -DBUILD_KICKER=ON \
-  -DBUILD_ALL=OFF
+  -DBUILD_ALL=OFF \
+  -DWITH_TDEHWLIB=ON
 cd kicker
 make -j$(nproc)
 sudo make install
@@ -94,7 +101,7 @@ The script:
 1. Runs `make install DESTDIR=...` from the existing build
 2. Cherry-picks kicker binaries and libraries
 3. Applies `sstrip` for maximum compression
-4. Generates `tde-kicker-q4win10_14.1.1_amd64.deb` (~522KB)
+4. Generates `tde-kicker-classicx-q4win10_14.1.1_amd64.deb` (~522KB)
 
 
 
